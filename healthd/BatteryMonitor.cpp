@@ -289,7 +289,7 @@ bool BatteryMonitor::update(void) {
         }
     }
 
-    logthis = !healthd_board_battery_update(&props);
+    logthis = 0;
 
     if (logthis) {
         char dmesgline[256];
@@ -327,8 +327,6 @@ bool BatteryMonitor::update(void) {
                  props.chargerAcOnline ? "a" : "",
                  props.chargerUsbOnline ? "u" : "",
                  props.chargerWirelessOnline ? "w" : "");
-
-        KLOG_WARNING(LOG_TAG, "%s\n", dmesgline);
     }
 
     healthd_mode_ops->battery_update(&props);
