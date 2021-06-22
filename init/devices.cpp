@@ -493,8 +493,12 @@ void DeviceHandler::HandleUevent(const Uevent& uevent) {
             devpath = StringPrintf("/dev/bus/usb/%03d/%03d", bus_id, device_id);
         }
     } else if (StartsWith(uevent.subsystem, "usb")) {
-        // ignore other USB events
-        return;
+        if(uevent.subsystem == "usbmisc" && !uevent.device_name.empty()) {
+            devpath = "/dev/" + uevent.device_name;
+        } else {
+            // ignore other USB events
+            return;
+        }
     } else {
         devpath = "/dev/" + Basename(uevent.path);
     }
